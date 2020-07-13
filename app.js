@@ -7,6 +7,14 @@ const app = express();
 
 app.use(bodyParser.json());
 
+//cors error
+// app.use((req, res, next) => {
+//     res.setHeader('Access-Control-Allow-Origin', '*');
+//     res.setHeader('Access-Control-Allow-Methods', 'GET, PUT, PATCH, PUT, DELETE');
+//     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authotization');
+//     next();
+// })
+
 app.use('/api/', routerBooks);
 
 app.listen(3000, () => {
