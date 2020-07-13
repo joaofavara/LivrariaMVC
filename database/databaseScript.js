@@ -5,7 +5,7 @@ async function script() {
         await mongoose.connect('mongodb://localhost:27017/test', {useNewUrlParser: true, useUnifiedTopology: true});
         console.log('Mongo connected ...');
         const db = mongoose.connection;
-        db.createCollection('Livros');
+        db.createCollection('Books');
     } catch (error) {
         console.log(error);
     }

@@ -1,16 +1,6 @@
-module.exports = (mongooseModel) => {
-    return { 
-        async getLivros() {
-            return await mongooseModel.find({});
-        },
+const mongooseBooksModel = require('../database/books');
+const booksModel = require('./model.book')(mongooseBooksModel);
 
-        async saveLivros({nome, autores, paginas, genero}) {
-            return await mongooseModel.create({
-                nome,
-                autores,
-                paginas,
-                genero
-            })
-        }   
-    }
-};
+module.exports = {
+    booksModel
+}
