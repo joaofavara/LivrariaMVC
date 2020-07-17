@@ -1,35 +1,69 @@
-module.exports = (mongooseBooksModel) => {
+
+module.exports = (mongooseBooksModel, handleError) => {
     return { 
         async getBooks() {
-            return await mongooseBooksModel.find({
-                isDeleted: false
-            });
+            try {
+                return await mongooseBooksModel.find({
+                    isDeleted: false
+                });
+            } catch (error) {
+                throw new handleError.DatabaseError('Error getBooks');
+            }
         },
 
-        async saveBook({name, authors, pages, genre}) {
-            return await mongooseBooksModel.create({
-                type: 'book',
-                isDeleted: false,
-                name,
-                authors,
-                pages,
-                genre,
-            })
+        async saveBook(name, authors, pages, genre) {
+            try {
+                return await mongooseBooksModel.create({
+                    type: 'book',
+                    isDeleted: false,
+                    name,
+                    authors,
+                    pages,
+                    genre,
+                })
+            } catch (error) {
+                throw new handleError.DatabaseError('Error saveBook');
+            }
         },
 
         async getOneBook(id) {
-            return await mongooseBooksModel.find({
-                _id: id,
-                isDeleted: false,
-            })
+            try {
+                if(!id) {
+                    throw new handleError.ValidationError('Error validating the getOneBook')
+                }
+
+                return await mongooseBooksModel.find({
+                    _id: id,
+                    isDeleted: false,
+                })
+            } catch (error) {
+                throw new handleError.DatabaseError('Error getOneBook')
+                // 
+            }
         },
 
         async updateBook(id, payload) {
-            return await mongooseBooksModel.findOneAndUpdate({_id: id}, payload);
+            try {
+                if(!id || !payload) {
+                    throw new handleError.ValidationError('Error validating the updateBook')
+                }
+
+                return await mongooseBooksModel.findOneAndUpdate({_id: id}, payload);
+            } catch (error) {
+                throw new handleError.DatabaseError('Error updateBook')
+            }
         },
 
         async removeBook(id) {
-            return await mongooseBooksModel.findOneAndUpdate({_id: id}, { isDeleted: true });
+            try {
+                if(!id) {
+                    throw new handleError.ValidationError('Error validating the removeBook')
+                }
+
+                return await mongooseBooksModel.findOneAndUpdate({_id: id}, { isDeleted: true });
+            } catch (error) {
+                throw new handleError.DatabaseError('Error removeBook')
+            }
         }
     }
 };

@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const routerBooks = require('./controllers/index');
 const mongodb = require('./database/databaseConnection')();
+const errorMiddleware = require('./handleErrors/errorMiddleware');
 
 const app = express(); 
 
@@ -15,7 +16,7 @@ app.use(bodyParser.json());
 //     next();
 // })
 
-app.use('/api/', routerBooks);
+app.use('/api/', routerBooks, errorMiddleware);
 
 app.listen(3000, () => {
     console.log('The app is running ...');
