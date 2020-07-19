@@ -1,5 +1,5 @@
 
-module.exports = (mongooseBooksModel, handleError) => {
+module.exports = (mongooseBooksModel) => {
     return { 
         async getBooks() {
             try {
@@ -7,11 +7,11 @@ module.exports = (mongooseBooksModel, handleError) => {
                     isDeleted: false
                 });
             } catch (error) {
-                throw new handleError.DatabaseError('Error getBooks');
+                throw new Error('Error getBooks');
             }
         },
 
-        async saveBook(name, authors, pages, genre) {
+        async saveBook({name, authors, pages, genre}) {
             try {
                 return await mongooseBooksModel.create({
                     type: 'book',
@@ -22,7 +22,7 @@ module.exports = (mongooseBooksModel, handleError) => {
                     genre,
                 })
             } catch (error) {
-                throw new handleError.DatabaseError('Error saveBook');
+                throw new Error('Error saveBook');
             }
         },
 
@@ -37,7 +37,7 @@ module.exports = (mongooseBooksModel, handleError) => {
                     isDeleted: false,
                 })
             } catch (error) {
-                throw new handleError.DatabaseError('Error getOneBook')
+                throw new Error('Error getOneBook')
                 // 
             }
         },
@@ -50,7 +50,7 @@ module.exports = (mongooseBooksModel, handleError) => {
 
                 return await mongooseBooksModel.findOneAndUpdate({_id: id}, payload);
             } catch (error) {
-                throw new handleError.DatabaseError('Error updateBook')
+                throw new Error('Error updateBook')
             }
         },
 
@@ -62,7 +62,7 @@ module.exports = (mongooseBooksModel, handleError) => {
 
                 return await mongooseBooksModel.findOneAndUpdate({_id: id}, { isDeleted: true });
             } catch (error) {
-                throw new handleError.DatabaseError('Error removeBook')
+                throw new Error('Error removeBook')
             }
         }
     }

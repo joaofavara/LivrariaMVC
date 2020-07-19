@@ -1,8 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const routerBooks = require('./controllers/index');
+const routerBooks = require('./controllers');
 const mongodb = require('./database/databaseConnection')();
-const errorMiddleware = require('./handleErrors/errorMiddleware');
+const { errorMiddleware } = require('./middlewares');
 
 const app = express(); 
 

@@ -1,6 +1,5 @@
 const mongooseBooksModel = require('../database/books');
-const handleErrors = require('../handleErrors/errors');
-const booksModel = require('./model.book')(mongooseBooksModel, handleErrors);
+const booksModel = require('./model.book')(mongooseBooksModel);
 
 module.exports = {
     booksModel
