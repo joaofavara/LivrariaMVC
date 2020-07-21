@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get('/books', controllerBooks.getBooks);
 
-router.post('/books/save',
+router.post('/books',
     [
         body('name', 'Name must be string').isString(),
         body('authors', 'Authors must be array of strings').isArray(),

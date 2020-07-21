@@ -2,18 +2,16 @@ const {booksModel} = require('../models/index');
 const { validationResult } = require('express-validator')
 
 module.exports = {
-    getBooks(req, res, next) {
-        booksModel.getBooks()
-            .then((result) => {
-                res.status(200).json(result);
-            })
-            .catch((error) => {
-                error.httpStatusCode = 500;
-                next(error)
-            })
+    async getBooks(req, res, next) {
+        try {
+            const result = await booksModel.getBooks();
+            res.status(200).json(result);
+        } catch (err) {
+            next(err);
+        }
     },
 
-    saveBook(req, res, next) {
+    async saveBook(req, res, next) {
         const errors = validationResult(req);
 
         if(!errors.isEmpty()) {
@@ -22,51 +20,43 @@ module.exports = {
             return next(err);
         }
 
-        const body = req.body;
-        booksModel.saveBook({ ...body })
-            .then((result) => {
-                res.status(200).send(result);
-            })
-            .catch((error) => {
-                error.httpStatusCode = 500;
-                next(error);
-            });
+        try {
+            const body = req.body;
+            const result = await booksModel.saveBook({ ...body })
+            res.status(200).send(result);
+        } catch (err) {
+            next(err);
+        }
     },
 
-    getOneBook(req, res, next) {
-        const id = req.params.id;
-        booksModel.getOneBook(id)
-            .then((result) => {
-                res.status(200).send(result);
-            })
-            .catch((error) => {
-                error.httpStatusCode = 500;
-                next(error);
-            })
+    async getOneBook(req, res, next) {
+        try {
+            const id = req.params.id;
+            const result = await booksModel.getOneBook(id)
+            res.status(200).send(result);
+        } catch (err) {
+            next(err);
+        }
     },
 
-    updateBook(req, res, next) {
-        const id = req.params.id;
-        const body = req.body;
-        booksModel.updateBook(id, body)
-            .then((result) => {
-                res.status(200).send(result);
-            })
-            .catch ((error) => {
-                error.httpStatusCode = 500;
-                next(error);
-            })
+    async updateBook(req, res, next) {
+        try {
+            const id = req.params.id;
+            const body = req.body;
+            const result = await booksModel.updateBook(id, body)
+            res.status(200).send(result);
+        } catch (err) {
+            next(err);
+        }
     },
 
-    removeBook(req, res, next) {
-        const id = req.params.id;
-        booksModel.removeBook(id)
-            .then((result) => {
-                res.status(200).send(result);
-            })
-            .catch ((error) => {
-                error.httpStatusCode = 500;
-                next(error);
-            })
+    async removeBook(req, res, next) {
+        try {
+            const id = req.params.id;
+            const result = await booksModel.removeBook(id)
+            res.status(200).send(result);
+        } catch (err) {
+            next(err);
+        }
     }
 }

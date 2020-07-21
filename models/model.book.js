@@ -28,10 +28,6 @@ module.exports = (mongooseBooksModel) => {
 
         async getOneBook(id) {
             try {
-                if(!id) {
-                    throw new handleError.ValidationError('Error validating the getOneBook')
-                }
-
                 return await mongooseBooksModel.find({
                     _id: id,
                     isDeleted: false,
@@ -44,10 +40,6 @@ module.exports = (mongooseBooksModel) => {
 
         async updateBook(id, payload) {
             try {
-                if(!id || !payload) {
-                    throw new handleError.ValidationError('Error validating the updateBook')
-                }
-
                 return await mongooseBooksModel.findOneAndUpdate({_id: id}, payload);
             } catch (error) {
                 throw new Error('Error updateBook')
@@ -56,10 +48,6 @@ module.exports = (mongooseBooksModel) => {
 
         async removeBook(id) {
             try {
-                if(!id) {
-                    throw new handleError.ValidationError('Error validating the removeBook')
-                }
-
                 return await mongooseBooksModel.findOneAndUpdate({_id: id}, { isDeleted: true });
             } catch (error) {
                 throw new Error('Error removeBook')

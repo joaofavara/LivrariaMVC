@@ -1,3 +1,3 @@
-module.exports = (err, req, res) => {
-    res.status(err.httpStatusCode).render({ error: err });
+module.exports = (err, req, res, next) => {
+    res.status(err.httpStatusCode || 500).json({ error: err.message });
 }
